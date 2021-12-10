@@ -48,7 +48,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class PlaceSearchActivity extends AppCompatActivity {
 
-    private static final String URI = "https://maps.googleapis.com/maps/api/place/nearbysearch/";
+    private static final String URI = "https://maps.googleapis.com/maps/api/place/nearbysearch";
     private static final String API = "AIzaSyBMvojmOv9vKtKfYiEd-lWvgbZWdGCvKCA";
     private static final int LOCATION_REQUEST_CODE = 1;
     static final String TAG = "PlaceSearchActivity:";
@@ -67,6 +67,8 @@ public class PlaceSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_place_search);
 
         EditText searchBar = findViewById(R.id.searchBar);
+
+        //HIT THE SEARCH BUTTON
         searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -80,11 +82,14 @@ public class PlaceSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+        //HIT THE X BUTTON
         searchBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     //TODO: Get X button functionality
+                    searchBar.setText("");
+                    placeList = null;
                 }
                 return false;
             }
@@ -92,7 +97,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         enableMyLocation();
 
-        placeList.add(new Place("sdjlfnsl", "Wesley's Asshole", "sdj,fhkdb", 4.3, ""));
+        placeList.add(new Place("sdjlfnsl", "Wesley's", "sdj,fhkdb", 4.3, ""));
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -113,9 +118,11 @@ public class PlaceSearchActivity extends AppCompatActivity {
         int itemID = item.getItemId();
         switch(itemID) {
             case R.id.fetchLocationItem:
+                Toast.makeText(this, "Fetch Location", Toast.LENGTH_SHORT).show();
                 enableMyLocation();
                 break;
             case R.id.searchItem:
+                Toast.makeText(this, "Searched Button", Toast.LENGTH_SHORT).show();
                 EditText searchBar = findViewById(R.id.searchBar);
                 String searchURL = buildSearchURL(searchBar.getText().toString());
                 task = new GetNearMeLocationTask();
@@ -126,7 +133,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -143,13 +150,14 @@ public class PlaceSearchActivity extends AppCompatActivity {
 
     private String buildSearchURL(String key) {
         String searchURL = URI;
-        searchURL += "json/location=" + latitude + "," + longitude + "&radius=1500&rankBy=distance&keyword="
+        searchURL += "/json?location=" + latitude + "," + longitude + "&radius=1500&rankBy=distance&keyword="
                 + key + "&key=" + API;
         Log.d(TAG, "constructSearchURL: " + searchURL);
         return searchURL;
     }
 
     private void enableMyLocation() {
+        Toast.makeText(this, "Enabling Location", Toast.LENGTH_SHORT).show();
         // attempt to get the user's permission for their FINE LOCATION
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -158,10 +166,11 @@ public class PlaceSearchActivity extends AppCompatActivity {
                 public void onSuccess(Location location) {
                     if (location != null) {
                         latitude = location.getLatitude();
-                        longitude = location.getLongitude();
+                        longitude = location.getLongitude();//HERE
                     }
                 }
             });
+
         } else {
             // we don't have permission, request it
             // this is going to show an alert dialog to the user, asking for their choice
@@ -281,13 +290,23 @@ public class PlaceSearchActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-            String text = "" + placeList.get(position).getName() + "(" + placeList.get(position).getRating() + ")";
+            String text;
+            if(placeList != null){
+                text = "" + placeList.get(position).getName() + "(" + placeList.get(position).getRating() + ")";
+            }
+            else{
+                text = "Null Value Caught. Fix it chief";
+            }
+
             holder.updateView(text);
         }
 
         @Override
         public int getItemCount() {
-            return placeList.size();
+            if(placeList != null)
+                return placeList.size();
+            else
+                return 0;//
         }
     }
 
