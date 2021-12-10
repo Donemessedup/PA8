@@ -187,7 +187,8 @@ public class PlaceSearchActivity extends AppCompatActivity {
             String name = placeJSON.getString("name");
             String vicinity = placeJSON.getString("vicinity");
             Double rating = placeJSON.getDouble("rating");
-            place = new Place(id, name, vicinity, rating, "");
+            String photoReference = placeJSON.getString("photo_reference");
+            place = new Place(id, name, vicinity, rating, photoReference);
             Log.d(TAG, "parsePlace: " + id + " " + name + " " + vicinity + " " + rating);
         } catch (JSONException e) {
             e.printStackTrace();
