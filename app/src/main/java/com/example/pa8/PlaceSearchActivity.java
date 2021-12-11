@@ -232,6 +232,9 @@ public class PlaceSearchActivity extends AppCompatActivity {
                     if(place != null) {
                         placeList1.add(place);
                     }
+                    else {
+                        Log.d(TAG, "Wes likes tigers");
+                    }
                 }
 
             }
@@ -262,11 +265,12 @@ public class PlaceSearchActivity extends AppCompatActivity {
         CardView cardView1;
         class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             TextView textView;
+            TextView textView2;
             public CustomViewHolder(@NonNull View itemView) {
                 super(itemView);
                 cardView1 = itemView.findViewById(R.id.myCardView1);
                 textView = itemView.findViewById(R.id.MyText1);
-
+                textView2 = itemView.findViewById(R.id.MyText2);
                 itemView.setOnClickListener(this);
             }
 
@@ -275,9 +279,11 @@ public class PlaceSearchActivity extends AppCompatActivity {
 
             }
 
-            public void updateView(String title) {
+            public void updateView(String title, String vicinity) {
                 cardView1.setCardBackgroundColor(getResources().getColor(R.color.white));
+                Log.d(TAG, "Vicinity is " + vicinity);
                 textView.setText(title);
+                textView2.setText(vicinity);
             }
 
         }
@@ -295,14 +301,17 @@ public class PlaceSearchActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
             String text;
+            String vicinity;
             if(placeList != null){
                 text = "" + placeList.get(position).getName() + "(" + placeList.get(position).getRating() + ")";
+                vicinity = "" + placeList.get(position).getVicinity();
             }
             else{
                 text = "Null Value Caught. Fix it chief";
+                vicinity = "fix it chief";
             }
 
-            holder.updateView(text);
+            holder.updateView(text, vicinity);
         }
 
         @Override
@@ -310,7 +319,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
             if(placeList != null)
                 return placeList.size();
             else
-                return 0;//
+                return 0;
         }
     }
 
