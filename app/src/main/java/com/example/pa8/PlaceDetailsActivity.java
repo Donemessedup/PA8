@@ -60,13 +60,6 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         String searchURL = buildSearchURL(name);
         task = new PlaceDetailsActivity.GetDetailsLocationTask();
         task.execute(searchURL);
-
-//        Log.d(TAG, "parsePlace: " + detailPlace.getId() + " " + detailPlace.getName() + " " +
-//                detailPlace.getVicinity() + " " + detailPlace.getRating() + " " +
-//                phoneNumber + " " + detailPlace.getPhotoReference() + " " + open + " " + review);
-
-//        nameTextView.setText(detailPlace.getName());
-//        addressTextView.setText(detailPlace.getVicinity());
     }
 
     @Override
@@ -92,17 +85,18 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     private Place parsePlace(JSONObject placeJSON) {
         Place place = null;
         try {
+
             String id = placeJSON.getString("place_id");
             String name = placeJSON.getString("name");
             String vicinity = placeJSON.getString("vicinity");
             Double rating = placeJSON.getDouble("rating");
-            JSONArray placesJSONArray = placeJSON.getJSONArray("photo");
+            JSONArray placesJSONArray = placeJSON.getJSONArray("photos");
             String photoReference = placesJSONArray.getJSONObject(0).getString("photo_reference");
             phoneNumber = placeJSON.getString("formatted_phone_number");
             open = placeJSON.getJSONObject("opening_hours").getBoolean("open_now");
             placesJSONArray = placeJSON.getJSONArray("reviews");
             review = placesJSONArray.getJSONObject(0).getString("text");
-            place = new Place(id, name, vicinity, rating, photoReference);
+            place = new Place(id, name, vicinity, rating, "");
             Log.d(TAG, "parsePlace: " + id + " " + name + " " + vicinity + " " + rating + " " + phoneNumber + " " +
                     photoReference + " " + open + " " + review);
         } catch (JSONException e) {
@@ -140,7 +134,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
                 Log.d(TAG, "doInBackground: " + jsonData);
                 JSONObject jsonObject = new JSONObject(jsonData);
-                place1 = parsePlace(jsonObject);
+                JSONObject jsonObject1 = jsonObject.getJSONObject("result");
+                place1 = parsePlace(jsonObject1);
 
             } catch (MalformedURLException exception) {
 
@@ -166,9 +161,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
             TextView openTextView = findViewById(R.id.textView4);
             TextView reviewTextView = findViewById(R.id.textView5);
 
+            Log.d(TAG, "parsePlace: " + detailPlace.getId() + " " + detailPlace.getName() + " " +
+                    detailPlace.getVicinity() + " " + detailPlace.getRating() + " " +
+                    phoneNumber + " " + detailPlace.getPhotoReference() + " " + open + " " + review);
             phoneTextView.setText(phoneNumber);
-            //openTextView.setText(open.toString());
+            openTextView.setText(open.toString());
             reviewTextView.setText(review);
+            nameTextView.setText(detailPlace.getName());
+            addressTextView.setText(detailPlace.getVicinity());
             //TODO: Set up progress bar
         }
     }
