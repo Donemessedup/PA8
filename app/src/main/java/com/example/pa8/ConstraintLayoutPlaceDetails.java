@@ -13,6 +13,39 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 public class ConstraintLayoutPlaceDetails extends ConstraintLayout {
 
+    TextView nT;
+    TextView aT;
+    TextView pT;
+    TextView oT;
+    TextView rT;
+    ImageView iV;
+
+    void nT(String input){
+        nT.setText(input);
+    }
+
+    void aT(String input){
+        aT.setText(input);
+    }
+
+    void pT(String input){
+        pT.setText(input);
+    }
+
+    void oT(String input){
+        oT.setText(input);
+    }
+
+    void rT(String input){
+        rT.setText(input);
+    }
+
+//    void setImage(String input){
+//        nT.setText(input);
+//    }
+
+
+
     public ConstraintLayoutPlaceDetails(@NonNull Context context) {
         super(context);
 
@@ -33,40 +66,41 @@ public class ConstraintLayoutPlaceDetails extends ConstraintLayout {
         constraintSet.applyTo(this);
     }
 
+
     void setConstraints(Context context, ConstraintSet constraintSet){
 
         //Name
-        TextView nT = new TextView(context);
+        nT = new TextView(context);
         nT.setId(View.generateViewId());
         nT.setText("Name of place PLACEHOLDER");
         addView(nT);
 
         //Address
-        TextView aT = new TextView(context);
+        aT = new TextView(context);
         aT.setId(View.generateViewId());
         aT.setText("Address of place PLACEHOLDER");
         addView(aT);
 
         //Phone numbers
-        TextView pT = new TextView(context);
+        pT = new TextView(context);
         pT.setId(View.generateViewId());
         pT.setText("Phone Number of place PLACEHOLDER");
         addView(pT);
 
         //Whether the place is open or not
-        TextView oT = new TextView(context);
+        oT = new TextView(context);
         oT.setId(View.generateViewId());
         oT.setText("Open of place PLACEHOLDER");
         addView(oT);
 
         //A review
-        TextView rT = new TextView(context);
+        rT = new TextView(context);
         rT.setId(View.generateViewId());
         rT.setText("Review of place PLACEHOLDER");
         addView(rT);
 
         //Image
-        ImageView iV = new ImageView(context);
+        iV = new ImageView(context);
         iV.setId(View.generateViewId());
         iV.setBackgroundColor(Color.rgb(0, 204, 204));
         addView(iV);
