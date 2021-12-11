@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PA8">
         <activity
+            android:name=".PlaceDetailsActivity"
+            android:exported="true" />
+        <activity
             android:name=".PlaceSearchActivity"
             android:exported="true">
             <intent-filter>
