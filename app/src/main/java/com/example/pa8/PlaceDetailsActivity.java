@@ -82,6 +82,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         return searchURL;
     }
 
+    private String buildPhotoURL(String photoReference) {
+        String photoURL = "https://maps.googleapis.com/maps/api/place/photo\n" +
+                "  ?maxwidth=400";
+        photoURL += "&photo_reference=" + photoReference + "&key=" + API;
+        Log.d(TAG, "photoSearchURL: " + photoURL);
+        return photoURL;
+    }
+
     private Place parsePlace(JSONObject placeJSON) {
         Place place = null;
         try {
@@ -169,6 +177,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
             reviewTextView.setText(review);
             nameTextView.setText(detailPlace.getName());
             addressTextView.setText(detailPlace.getVicinity());
+            buildPhotoURL(detailPlace.getPhotoReference());
+
             //TODO: Set up progress bar
         }
     }
