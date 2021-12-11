@@ -15,7 +15,9 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_place_details);
+        //setContentView(R.layout.activity_place_details);
+        ConstraintLayoutPlaceDetails layout = new ConstraintLayoutPlaceDetails(this);
+        setContentView(layout);
     }
 
     @Override
