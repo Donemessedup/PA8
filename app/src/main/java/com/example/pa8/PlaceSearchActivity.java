@@ -90,6 +90,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
                     //TODO: Get X button functionality
                     searchBar.setText("");
                     placeList = null;
+                    adapter.notifyDataSetChanged();
                 }
                 return false;
             }
@@ -149,7 +150,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
 
     private String buildSearchURL(String key) {
         String searchURL = URI;
-        searchURL += "/json?location=" + latitude + "," + longitude + "&radius=1500&rankBy=distance&keyword="
+        searchURL += "/json?location=" + latitude + "," + longitude + "&radius=3000&rankBy=distance&keyword="
                 + key + "&key=" + API;
         Log.d(TAG, "constructSearchURL: " + searchURL);
         return searchURL;
@@ -254,11 +255,9 @@ public class PlaceSearchActivity extends AppCompatActivity {
             super.onPostExecute(places);
 
             placeList = places;
-<<<<<<< HEAD
             Log.d(TAG, "Got Milk?  " + placeList.toString() + " Suze");
-=======
             adapter.notifyDataSetChanged();
->>>>>>> ffe83f53aed53a87414f62336df9b35b2772785b
+
 
             //TODO: Set up progress bar
         }
