@@ -58,7 +58,6 @@ public class PlaceSearchActivity extends AppCompatActivity {
     private static final int LOCATION_REQUEST_CODE = 1;
     static final String TAG = "PlaceSearchActivity:";
 
-
     private List<Place> placeList = new ArrayList<>();
     private FusedLocationProviderClient fusedLocationProviderClient;
     private GetNearMeLocationTask task;
@@ -197,13 +196,11 @@ public class PlaceSearchActivity extends AppCompatActivity {
 
     private Place parsePlace(JSONObject placeJSON) {
         Place place = null;
-        Log.d(TAG, "Erins a Bithf");
         try {
             String id = placeJSON.getString("place_id");
             String name = placeJSON.getString("name");
             String vicinity = placeJSON.getString("vicinity");
             Double rating = placeJSON.getDouble("rating");
-            //String photoReference = placeJSON.getString("photo_reference");
             place = new Place(id, name, vicinity, rating, "");
             Log.d(TAG, "parsePlace: " + id + " " + name + " " + vicinity + " " + rating);
         } catch (JSONException e) {
@@ -297,6 +294,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PlaceSearchActivity.this, PlaceDetailsActivity.class);
+                intent.putExtra("name", placeList.get(getAdapterPosition()).getId());
                 launcher.launch(intent);
             }
 
