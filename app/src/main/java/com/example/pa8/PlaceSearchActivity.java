@@ -97,7 +97,6 @@ public class PlaceSearchActivity extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         enableMyLocation();
 
-        placeList.add(new Place("sdjlfnsl", "Wesley's", "sdj,fhkdb", 4.3, ""));
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -188,8 +187,8 @@ public class PlaceSearchActivity extends AppCompatActivity {
             String name = placeJSON.getString("name");
             String vicinity = placeJSON.getString("vicinity");
             Double rating = placeJSON.getDouble("rating");
-            String photoReference = placeJSON.getString("photo_reference");
-            place = new Place(id, name, vicinity, rating, photoReference);
+            //String photoReference = placeJSON.getString("photo_reference");
+            place = new Place(id, name, vicinity, rating, "");
             Log.d(TAG, "parsePlace: " + id + " " + name + " " + vicinity + " " + rating);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -226,7 +225,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
 
                 Log.d(TAG, "doInBackground: " + jsonData);
                 JSONObject jsonObject = new JSONObject(jsonData);
-                JSONArray placesJSONArray = jsonObject.getJSONArray("data");
+                JSONArray placesJSONArray = jsonObject.getJSONArray("results");
 
                 Log.d(TAG, "Number of Hits: " + placesJSONArray.length());
                 for(int i = 0; i < placesJSONArray.length(); i++) {
@@ -255,7 +254,11 @@ public class PlaceSearchActivity extends AppCompatActivity {
             super.onPostExecute(places);
 
             placeList = places;
+<<<<<<< HEAD
             Log.d(TAG, "Got Milk?  " + placeList.toString() + " Suze");
+=======
+            adapter.notifyDataSetChanged();
+>>>>>>> ffe83f53aed53a87414f62336df9b35b2772785b
 
             //TODO: Set up progress bar
         }
@@ -288,8 +291,11 @@ public class PlaceSearchActivity extends AppCompatActivity {
         @NonNull
         @Override
         public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(PlaceSearchActivity.this).inflate(R.layout.card_view_place_item, parent, false);
-            return new CustomViewHolder(view);
+            if(placeList.size() != 0) {
+                View view = LayoutInflater.from(PlaceSearchActivity.this).inflate(R.layout.card_view_place_item, parent, false);
+                return new CustomViewHolder(view);
+            }
+            return null;
         }
 
         @Override
