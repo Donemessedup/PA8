@@ -1,5 +1,9 @@
 package com.example.pa8;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -9,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -60,6 +65,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
     double latitude;
     double longitude;
     CustomAdapter adapter;
+    ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,15 @@ public class PlaceSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_place_search);
 
         EditText searchBar = findViewById(R.id.searchBar);
+
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Log.d(TAG, "onActivityResult: ");
+
+                    }
+                });
 
         //HIT THE SEARCH BUTTON
         searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -281,7 +296,8 @@ public class PlaceSearchActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(PlaceSearchActivity.this, PlaceDetailsActivity.class);
+                launcher.launch(intent);
             }
 
             public void updateView(String title, String vicinity) {
