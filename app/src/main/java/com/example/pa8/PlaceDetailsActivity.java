@@ -18,6 +18,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_place_details);
         ConstraintLayoutPlaceDetails layout = new ConstraintLayoutPlaceDetails(this);
         setContentView(layout);
+
+        Intent intent = getIntent();
+        name = intent.getStringExtra("name");
+        String searchURL = buildSearchURL(name);
+        task = new PlaceDetailsActivity.GetDetailsLocationTask();
+        task.execute(searchURL);
+
+
     }
 
     @Override
