@@ -36,7 +36,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class PlaceDetailsActivity extends AppCompatActivity {
 
     private static final int LOCATION_REQUEST_CODE = 1;
-    static final String TAG = "PlaceSearchActivity:";
+    static final String TAG = "PlaceDetailsActivity:";
     private PlaceDetailsActivity.GetDetailsLocationTask task;
     private static final String URI = "https://maps.googleapis.com/maps/api/place/details/";
     private static final String API = "AIzaSyBMvojmOv9vKtKfYiEd-lWvgbZWdGCvKCA";
@@ -61,7 +61,12 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         task = new PlaceDetailsActivity.GetDetailsLocationTask();
         task.execute(searchURL);
 
+//        Log.d(TAG, "parsePlace: " + detailPlace.getId() + " " + detailPlace.getName() + " " +
+//                detailPlace.getVicinity() + " " + detailPlace.getRating() + " " +
+//                phoneNumber + " " + detailPlace.getPhotoReference() + " " + open + " " + review);
 
+//        nameTextView.setText(detailPlace.getName());
+//        addressTextView.setText(detailPlace.getVicinity());
     }
 
     @Override
@@ -154,6 +159,16 @@ public class PlaceDetailsActivity extends AppCompatActivity {
             super.onPostExecute(place);
 
             detailPlace = place;
+
+            TextView nameTextView = findViewById(R.id.textView);
+            TextView addressTextView = findViewById(R.id.textView2);
+            TextView phoneTextView = findViewById(R.id.textView3);
+            TextView openTextView = findViewById(R.id.textView4);
+            TextView reviewTextView = findViewById(R.id.textView5);
+
+            phoneTextView.setText(phoneNumber);
+            //openTextView.setText(open.toString());
+            reviewTextView.setText(review);
             //TODO: Set up progress bar
         }
     }
