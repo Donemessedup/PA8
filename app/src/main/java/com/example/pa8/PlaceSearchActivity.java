@@ -182,6 +182,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
 
     private Place parsePlace(JSONObject placeJSON) {
         Place place = null;
+        Log.d(TAG, "Erins a Bithf");
         try {
             String id = placeJSON.getString("place_id");
             String name = placeJSON.getString("name");
@@ -227,6 +228,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONArray placesJSONArray = jsonObject.getJSONArray("data");
 
+                Log.d(TAG, "Number of Hits: " + placesJSONArray.length());
                 for(int i = 0; i < placesJSONArray.length(); i++) {
                     JSONObject placeObject = placesJSONArray.getJSONObject(i);
                     Place place = parsePlace(placeObject);
@@ -253,6 +255,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
             super.onPostExecute(places);
 
             placeList = places;
+            Log.d(TAG, "Got Milk?  " + placeList.toString() + " Suze");
 
             //TODO: Set up progress bar
         }
