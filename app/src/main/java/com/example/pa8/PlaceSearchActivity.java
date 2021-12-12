@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.view.Menu;
 import android.widget.Toast;
@@ -71,6 +72,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
     double latitude;
     double longitude;
     CustomAdapter adapter;
+    ProgressBar progressBar;
     ActivityResultLauncher<Intent> launcher;
 
     //ON CREATE
@@ -237,6 +239,8 @@ public class PlaceSearchActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            ProgressBar progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         //MAIN
@@ -293,7 +297,8 @@ public class PlaceSearchActivity extends AppCompatActivity {
             //update the adapter
             placeList = places;
             adapter.notifyDataSetChanged();
-
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.GONE);
 
             //TODO: Set up progress bar
         }
