@@ -169,24 +169,36 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
             detailPlace = place;
 
-            TextView nameTextView = findViewById(R.id.textView);
-            TextView addressTextView = findViewById(R.id.textView2);
-            TextView phoneTextView = findViewById(R.id.textView3);
-            TextView openTextView = findViewById(R.id.textView4);
-            TextView reviewTextView = findViewById(R.id.textView5);
-
-            Log.d(TAG, "parsePlace: " + detailPlace.getId() + " " + detailPlace.getName() + " " +
-                    detailPlace.getVicinity() + " " + detailPlace.getRating() + " " +
-                    phoneNumber + " " + detailPlace.getPhotoReference() + " " + open + " " + review);
-            phoneTextView.setText(phoneNumber);
-            openTextView.setText(open.toString());
-            reviewTextView.setText(review);
-            nameTextView.setText(detailPlace.getName());
-            addressTextView.setText(detailPlace.getVicinity());
+//            TextView nameTextView = findViewById(R.id.textView);
+//            TextView addressTextView = findViewById(R.id.textView2);
+//            TextView phoneTextView = findViewById(R.id.textView3);
+//            TextView openTextView = findViewById(R.id.textView4);
+//            TextView reviewTextView = findViewById(R.id.textView5);
+//
+//            Log.d(TAG, "parsePlace: " + detailPlace.getId() + " " + detailPlace.getName() + " " +
+//                    detailPlace.getVicinity() + " " + detailPlace.getRating() + " " +
+//                    phoneNumber + " " + detailPlace.getPhotoReference() + " " + open + " " + review);
+//            phoneTextView.setText(phoneNumber);
+//            openTextView.setText(open.toString());
+//            reviewTextView.setText(review);
+//            nameTextView.setText(detailPlace.getName());
+//            addressTextView.setText(detailPlace.getVicinity());
+            layout.nT(detailPlace.getName());
+            layout.aT(detailPlace.getVicinity());
+            layout.pT(phoneNumber);
+            layout.oT(open.toString());
+            layout.rT(review);
+            //layout.iV();
 
             String photoURL = buildPhotoURL(detailPlace.getPhotoReference());
+<<<<<<< HEAD
             placeTask = new PlaceDetailsActivity.GetPlaceLocationTask();
             placeTask.execute(photoURL)git ;
+=======
+            buildPhotoURL(detailPlace.getPhotoReference());
+            placeTask = new PlaceDetailsActivity.GetPlaceLocationTask();
+            placeTask.execute(photoURL);
+>>>>>>> 832f55a7c57858968d629d4a3cc24ab8c7cc38d9
 
             //TODO: Set up progress bar
         }
@@ -243,11 +255,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
             detailPlace = place;
 
-            layout.nT(detailPlace.getName());
-            layout.aT(detailPlace.getVicinity());
-            layout.pT(phoneNumber);
-            layout.oT(open.toString());
-            layout.rT(review);
+
 
 
             //TODO: Set up progress bar
