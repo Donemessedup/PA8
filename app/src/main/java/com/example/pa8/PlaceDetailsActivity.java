@@ -184,9 +184,9 @@ public class PlaceDetailsActivity extends AppCompatActivity {
             nameTextView.setText(detailPlace.getName());
             addressTextView.setText(detailPlace.getVicinity());
 
-            buildPhotoURL(detailPlace.getPhotoReference());
+            String photoURL = buildPhotoURL(detailPlace.getPhotoReference());
             placeTask = new PlaceDetailsActivity.GetPlaceLocationTask();
-            placeTask.execute();
+            placeTask.execute(photoURL)git ;
 
             //TODO: Set up progress bar
         }
@@ -219,7 +219,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 InputStream in = httpsURLConnection.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(in);
                 int info = inputStreamReader.read();
-                String jsonData = "";
+                Bitmap bitmap;
                 while (info != -1) {
                     jsonData += (char) info;
                     info = inputStreamReader.read();
