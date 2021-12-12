@@ -143,7 +143,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 Log.d(TAG, "doInBackground: " + jsonData);
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONObject jsonObject1 = jsonObject.getJSONObject("result");
-                place1 = parsePlace(jsonObject1);
+                place1 = parsePlace(jsonObject1);git comm
 
             } catch (MalformedURLException exception) {
 
