@@ -229,7 +229,6 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
                 Log.d(TAG, "making an image");
 
-
             } catch (MalformedURLException exception) {
 
             } catch (IOException e) {
