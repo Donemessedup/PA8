@@ -151,8 +151,6 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONObject jsonObject1 = jsonObject.getJSONObject("result");
                 place1 = parsePlace(jsonObject1);
-<<<<<<< HEAD
-
             } catch (MalformedURLException exception) {
 
             } catch (IOException e) {
@@ -229,18 +227,13 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
                 Log.d(TAG, "making an image");
 
-=======
->>>>>>> 473d786c86c20a7ec57d67b237d8399e6bef9efe
-
             } catch (MalformedURLException exception) {
 
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
 
-            return place1;
+            return null;
         }
 
 
@@ -250,30 +243,11 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
             detailPlace = place;
 
-//            TextView nameTextView = findViewById(R.id.textView);
-//            TextView addressTextView = findViewById(R.id.textView2);
-//            TextView phoneTextView = findViewById(R.id.textView3);
-//            TextView openTextView = findViewById(R.id.textView4);
-//            TextView reviewTextView = findViewById(R.id.textView5);
-//
-//            Log.d(TAG, "parsePlace: " + detailPlace.getId() + " " + detailPlace.getName() + " " +
-//                    detailPlace.getVicinity() + " " + detailPlace.getRating() + " " +
-//                    phoneNumber + " " + detailPlace.getPhotoReference() + " " + open + " " + review);
-//            phoneTextView.setText(phoneNumber);
-//            openTextView.setText(open.toString());
-//            reviewTextView.setText(review);
-//            nameTextView.setText(detailPlace.getName());
-//            addressTextView.setText(detailPlace.getVicinity());
             layout.nT(detailPlace.getName());
             layout.aT(detailPlace.getVicinity());
             layout.pT(phoneNumber);
             layout.oT(open.toString());
             layout.rT(review);
-            //layout.iV();
-
-
-            buildPhotoURL(detailPlace.getPhotoReference());
-
 
 
             //TODO: Set up progress bar
