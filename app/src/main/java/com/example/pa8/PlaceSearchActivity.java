@@ -53,32 +53,40 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class PlaceSearchActivity extends AppCompatActivity {
 
+    //NAME: WES AND AARON
+    //PROJECT: PA8
+    //DATE: 12/9/2021
+    //TITLE: WEB SERVICES LOCATION
+
+    //PRIVATE VARIABLES FOR API
     private static final String URI = "https://maps.googleapis.com/maps/api/place/nearbysearch";
     private static final String API = "AIzaSyBMvojmOv9vKtKfYiEd-lWvgbZWdGCvKCA";
     private static final int LOCATION_REQUEST_CODE = 1;
-    static final String TAG = "PlaceSearchActivity:";
+    static final String TAG = "PlaceSearchActivity:";//For debugging in logcat
 
-    private List<Place> placeList = new ArrayList<>();
+    //PRIVATE MEMBER VARIABLES
+    private List<Place> placeList = new ArrayList<>();//arraylist of places
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private GetNearMeLocationTask task;
+    private GetNearMeLocationTask task;//gets location
     double latitude;
     double longitude;
     CustomAdapter adapter;
     ActivityResultLauncher<Intent> launcher;
 
+    //ON CREATE
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_search);
 
-        EditText searchBar = findViewById(R.id.searchBar);
+        EditText searchBar = findViewById(R.id.searchBar);//object for search bar
 
+        //LAUNCHER TO SEND INTENT TO NEXT SCREEN
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         Log.d(TAG, "onActivityResult: ");
-
                     }
                 });
 
@@ -96,6 +104,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+
         //HIT THE X BUTTON
         searchBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -109,17 +118,23 @@ public class PlaceSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        //ENABLE LOCATION
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         enableMyLocation();
 
+        //SET UP RECYCLER VIEW
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        //SET UP CUSTOM ADAPTER
         adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
 
     }
+
+    //INFLATE MENU
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -127,6 +142,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    //WHEN ONE OF THE MENU ITEMS ARE SELECTED
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemID = item.getItemId();
@@ -146,35 +162,40 @@ public class PlaceSearchActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //MAKE SURE WE CAN USE API SAFELY
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // We can now safely use the API we requested access to
                 enableMyLocation();
 
             } else {
-                // Permission was denied or request was cancelled
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
 
     }
 
+    //CREATE SEARCH URL
     private String buildSearchURL(String key) {
         String searchURL = URI;
-        searchURL += "/json?location=" + latitude + "," + longitude + "&radius=3000&rankBy=distance&keyword="
-                + key + "&key=" + API;
+        searchURL +=
+                "/json?location=" +
+                        latitude + "," +
+                        longitude +
+                        "&radius=3000&rankBy=distance&keyword="
+                        + key + "&key=" +
+                        API;
         Log.d(TAG, "constructSearchURL: " + searchURL);
         return searchURL;
     }
 
+    //ENABLE THE PHONE'S LOCATION
     private void enableMyLocation() {
         Toast.makeText(this, "Enabling Location", Toast.LENGTH_SHORT).show();
-        // attempt to get the user's permission for their FINE LOCATION
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+        //TRY TO GET USERS FINE LOCATION
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
@@ -185,15 +206,15 @@ public class PlaceSearchActivity extends AppCompatActivity {
                 }
             });
 
-        } else {
-            // we don't have permission, request it
-            // this is going to show an alert dialog to the user, asking for their choice
+        }
+        else {//WE DONE HAVE PERMISSION, SO TRY TO GET PERMISSION
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_REQUEST_CODE);
         }
     }
 
+    //GET DATA FROM JSON FILE
     private Place parsePlace(JSONObject placeJSON) {
         Place place = null;
         try {
@@ -209,15 +230,16 @@ public class PlaceSearchActivity extends AppCompatActivity {
         return place;
     }
 
+    //GET STUFF NEAR ME BASED ON LOCATION
     class GetNearMeLocationTask extends AsyncTask<String, Void, List<Place>> {
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            //TODO: Progress bar setup
         }
 
+        //MAIN
         @Override
         protected List<Place> doInBackground(String... strings) {
             List<Place> placeList1 = new ArrayList<>();
@@ -226,7 +248,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
             try {
                 URL url = new URL(urlString);
                 HttpsURLConnection httpsURLConnection = (HttpsURLConnection) url.openConnection();
-
+                //get json data
                 InputStream in = httpsURLConnection.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(in);
                 int info = inputStreamReader.read();
@@ -239,7 +261,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
                 Log.d(TAG, "doInBackground: " + jsonData);
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONArray placesJSONArray = jsonObject.getJSONArray("results");
-
+                //go through all places
                 Log.d(TAG, "Number of Hits: " + placesJSONArray.length());
                 for(int i = 0; i < placesJSONArray.length(); i++) {
                     JSONObject placeObject = placesJSONArray.getJSONObject(i);
@@ -254,7 +276,6 @@ public class PlaceSearchActivity extends AppCompatActivity {
 
             }
             catch(MalformedURLException exception) {
-
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -269,8 +290,8 @@ public class PlaceSearchActivity extends AppCompatActivity {
         protected void onPostExecute(List<Place> places) {
             super.onPostExecute(places);
 
+            //update the adapter
             placeList = places;
-            Log.d(TAG, "Got Milk?  " + placeList.toString() + " Suze");
             adapter.notifyDataSetChanged();
 
 
@@ -278,6 +299,7 @@ public class PlaceSearchActivity extends AppCompatActivity {
         }
     }
 
+    //  CREATE CUSTOM ADAPTER
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
         CardView cardView1;
         class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
