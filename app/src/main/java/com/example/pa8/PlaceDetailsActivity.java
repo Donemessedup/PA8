@@ -51,13 +51,17 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     private PlaceDetailsActivity.GetPlaceLocationTask placeTask;
 
     private Place detailPlace;
-
+    private ConstraintLayoutPlaceDetails layout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_place_details);
+        //setContentView(R.layout.activity_place_details);
+        layout = new ConstraintLayoutPlaceDetails(this);
+        setContentView(layout);
+
+
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         String searchURL = buildSearchURL(name);
@@ -147,6 +151,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONObject jsonObject1 = jsonObject.getJSONObject("result");
                 place1 = parsePlace(jsonObject1);
+<<<<<<< HEAD
 
             } catch (MalformedURLException exception) {
 
@@ -224,6 +229,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
                 Log.d(TAG, "making an image");
 
+=======
+>>>>>>> 473d786c86c20a7ec57d67b237d8399e6bef9efe
 
             } catch (MalformedURLException exception) {
 
@@ -243,21 +250,31 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
             detailPlace = place;
 
-            TextView nameTextView = findViewById(R.id.textView);
-            TextView addressTextView = findViewById(R.id.textView2);
-            TextView phoneTextView = findViewById(R.id.textView3);
-            TextView openTextView = findViewById(R.id.textView4);
-            TextView reviewTextView = findViewById(R.id.textView5);
+//            TextView nameTextView = findViewById(R.id.textView);
+//            TextView addressTextView = findViewById(R.id.textView2);
+//            TextView phoneTextView = findViewById(R.id.textView3);
+//            TextView openTextView = findViewById(R.id.textView4);
+//            TextView reviewTextView = findViewById(R.id.textView5);
+//
+//            Log.d(TAG, "parsePlace: " + detailPlace.getId() + " " + detailPlace.getName() + " " +
+//                    detailPlace.getVicinity() + " " + detailPlace.getRating() + " " +
+//                    phoneNumber + " " + detailPlace.getPhotoReference() + " " + open + " " + review);
+//            phoneTextView.setText(phoneNumber);
+//            openTextView.setText(open.toString());
+//            reviewTextView.setText(review);
+//            nameTextView.setText(detailPlace.getName());
+//            addressTextView.setText(detailPlace.getVicinity());
+            layout.nT(detailPlace.getName());
+            layout.aT(detailPlace.getVicinity());
+            layout.pT(phoneNumber);
+            layout.oT(open.toString());
+            layout.rT(review);
+            //layout.iV();
 
-            Log.d(TAG, "parsePlace: " + detailPlace.getId() + " " + detailPlace.getName() + " " +
-                    detailPlace.getVicinity() + " " + detailPlace.getRating() + " " +
-                    phoneNumber + " " + detailPlace.getPhotoReference() + " " + open + " " + review);
-            phoneTextView.setText(phoneNumber);
-            openTextView.setText(open.toString());
-            reviewTextView.setText(review);
-            nameTextView.setText(detailPlace.getName());
-            addressTextView.setText(detailPlace.getVicinity());
+
             buildPhotoURL(detailPlace.getPhotoReference());
+
+
 
             //TODO: Set up progress bar
         }
