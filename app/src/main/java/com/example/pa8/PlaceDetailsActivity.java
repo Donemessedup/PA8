@@ -191,13 +191,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
             //layout.iV();
 
             String photoURL = buildPhotoURL(detailPlace.getPhotoReference());
-            buildPhotoURL(detailPlace.getPhotoReference());
             placeTask = new PlaceDetailsActivity.GetPlaceLocationTask();
             placeTask.execute(photoURL);
+
 
             //TODO: Set up progress bar
         }
     }
+
 
     public void receivedPhotoBitmap(Bitmap bitmap) {
         ImageView imageView = findViewById(R.id.imageView);
@@ -226,11 +227,9 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 InputStream in = httpsURLConnection.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(in);
                 int info = inputStreamReader.read();
-                String jsonData = "";
-                while (info != -1) {
-                    jsonData += (char) info;
-                    info = inputStreamReader.read();
-                }
+                Bitmap bitmap;
+
+
 
                 Log.d(TAG, "making an image");
 
