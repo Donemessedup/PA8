@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     private String phoneNumber;
     private Boolean open;
     private String review;
+    private PlaceDetailsActivity.GetPlaceLocationTask placeTask;
 
     private Place detailPlace;
 
@@ -143,7 +146,84 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 Log.d(TAG, "doInBackground: " + jsonData);
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONObject jsonObject1 = jsonObject.getJSONObject("result");
-                place1 = parsePlace(jsonObject1);git comm
+                place1 = parsePlace(jsonObject1);
+
+            } catch (MalformedURLException exception) {
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return place1;
+        }
+
+
+        @Override
+        protected void onPostExecute(Place place) {
+            super.onPostExecute(place);
+
+            detailPlace = place;
+
+            TextView nameTextView = findViewById(R.id.textView);
+            TextView addressTextView = findViewById(R.id.textView2);
+            TextView phoneTextView = findViewById(R.id.textView3);
+            TextView openTextView = findViewById(R.id.textView4);
+            TextView reviewTextView = findViewById(R.id.textView5);
+
+            Log.d(TAG, "parsePlace: " + detailPlace.getId() + " " + detailPlace.getName() + " " +
+                    detailPlace.getVicinity() + " " + detailPlace.getRating() + " " +
+                    phoneNumber + " " + detailPlace.getPhotoReference() + " " + open + " " + review);
+            phoneTextView.setText(phoneNumber);
+            openTextView.setText(open.toString());
+            reviewTextView.setText(review);
+            nameTextView.setText(detailPlace.getName());
+            addressTextView.setText(detailPlace.getVicinity());
+
+            buildPhotoURL(detailPlace.getPhotoReference());
+            placeTask = new PlaceDetailsActivity.GetPlaceLocationTask();
+            placeTask.execute();
+
+            //TODO: Set up progress bar
+        }
+    }
+
+    public void receivedPhotoBitmap(Bitmap bitmap) {
+        ImageView imageView = findViewById(R.id.imageView);
+        imageView.setImageBitmap(bitmap);
+    }
+
+
+
+    class GetPlaceLocationTask extends AsyncTask<String, Void, Place> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            //TODO: Progress bar setup
+        }
+
+        @Override
+        protected Place doInBackground(String... strings) {
+            String urlString = strings[0];
+
+            try {
+                URL url = new URL(urlString);
+                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) url.openConnection();
+
+                InputStream in = httpsURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+                int info = inputStreamReader.read();
+                String jsonData = "";
+                while (info != -1) {
+                    jsonData += (char) info;
+                    info = inputStreamReader.read();
+                }
+
+                Log.d(TAG, "making an image");
+
 
             } catch (MalformedURLException exception) {
 
