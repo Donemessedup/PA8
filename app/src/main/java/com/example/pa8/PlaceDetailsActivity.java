@@ -1,3 +1,15 @@
+/**
+ * This file houses the activity for the place details screen which pulls data using the place details
+ * API calls
+ * CPSC 312-01, Fall 2021
+ * Programming Assignment #8
+ * No sources to cite.
+ *
+ * @author Aaron Miller
+ * @author Wesley Muehlhausen
+ * @version v1.0 11/24/21
+ */
+
 package com.example.pa8;
 
 import androidx.annotation.NonNull;
@@ -82,6 +94,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // builds a search URL for the API call by details
     private String buildSearchURL(String key) {
         String searchURL = URI;
         searchURL += "json?place_id=" + key + "&key=" + API;
@@ -97,6 +110,11 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         return photoURL;
     }
 
+    /*
+    function parses jsonObject data to construct a place object
+    @param placeJSON: the json data that the place object will use
+    @return returns the place object created from the json data
+     */
     private Place parsePlace(JSONObject placeJSON) {
         Place place = null;
         try {
@@ -120,6 +138,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         return place;
     }
 
+// class for fetching place details data using API call
     class GetDetailsLocationTask extends AsyncTask<String, Void, Place> {
 
         @Override
