@@ -191,18 +191,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
             //layout.iV();
 
             String photoURL = buildPhotoURL(detailPlace.getPhotoReference());
-<<<<<<< HEAD
-            placeTask = new PlaceDetailsActivity.GetPlaceLocationTask();
-            placeTask.execute(photoURL)git ;
-=======
-            buildPhotoURL(detailPlace.getPhotoReference());
             placeTask = new PlaceDetailsActivity.GetPlaceLocationTask();
             placeTask.execute(photoURL);
->>>>>>> 832f55a7c57858968d629d4a3cc24ab8c7cc38d9
+
 
             //TODO: Set up progress bar
         }
     }
+
 
     public void receivedPhotoBitmap(Bitmap bitmap) {
         ImageView imageView = findViewById(R.id.imageView);
@@ -232,10 +228,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 InputStreamReader inputStreamReader = new InputStreamReader(in);
                 int info = inputStreamReader.read();
                 Bitmap bitmap;
-                while (info != -1) {
-                    jsonData += (char) info;
-                    info = inputStreamReader.read();
-                }
+
+
 
                 Log.d(TAG, "making an image");
 

@@ -55,5 +55,4 @@ public class Place {
     public void setPhotoReference(String photoReference) {
         this.photoReference = photoReference;
     }
-
 }
